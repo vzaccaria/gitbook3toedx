@@ -1,0 +1,39 @@
+{
+  "name": "gitbook3toedx",
+  "version": "0.0.1",
+  "description": "No name given yet",
+  "main": "index.js",
+  "bin": {
+    "gitbook3toedx": "./index.js"
+  },
+  "man": "./man/man1/gitbook3toedx.1",
+  "scripts": {
+    "test": "make test"
+    },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vzaccaria/gitbook3toedx.git"
+  },
+  "author": "Vittorio Zaccaria",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/vzaccaria/gitbook3toedx/issues"
+  },
+  "homepage": "https://github.com/vzaccaria/gitbook3toedx",
+  "dependencies": {
+    "zaccaria-cli": "*"
+  },
+    "devDependencies": {
+        "diy-build": "1.0.8",
+           "babel": "4.7.16",
+    "shelljs": "0.5.1",
+    "xyz": "0.5.0",
+    "zaccaria-cli": "0.2.0",
+    "chai": "3.0.0",
+    "chai-as-promised": "5.1.0",
+    "mustache": "2.1.2",
+    "debug": "^2.2.0",
+    "stupid-replace": "0.0.3",
+    "git-hist": "0.2.0"
+  }
+}
