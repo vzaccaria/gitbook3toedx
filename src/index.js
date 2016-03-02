@@ -1,21 +1,28 @@
 /* eslint quotes: [0], strict: [0] */
-var {
+let {
     $d, $o, $f
     // $r.stdin() -> Promise  ;; to read from stdin
 } = require('zaccaria-cli')
 
-var getOptions = doc => {
+let path = require('path')
+let debug = require('debug')(__filename)
+
+let getOptions = doc => {
     "use strict"
-    var o = $d(doc)
-    var help = $o('-h', '--help', false, o)
-    return {
-        help
+    let o = $d(doc)
+    let help = $o('-h', '--help', false, o)
+    let dir = o.DIR || false
+    let config = $o('-c', '--config', path.normalize(path.join(dir, 'config.yaml')), o);
+    let rt = {
+        help, dir, config
     }
+    debug(rt)
+    return rt
 }
 
-var main = () => {
+let main = () => {
     $f.readLocal('docs/usage.md').then(it => {
-        var {
+        let {
             help
         } = getOptions(it);
         if (help) {

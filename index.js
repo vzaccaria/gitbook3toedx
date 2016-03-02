@@ -10,13 +10,20 @@ var $f
 // $r.stdin() -> Promise  ;; to read from stdin
 = _require.$f;
 
+var path = require("path");
+var debug = require("debug")(__filename);
+
 var getOptions = function (doc) {
     "use strict";
     var o = $d(doc);
     var help = $o("-h", "--help", false, o);
-    return {
-        help: help
+    var dir = o.DIR || false;
+    var config = $o("-c", "--config", path.normalize(path.join(dir, "config.yaml")), o);
+    var rt = {
+        help: help, dir: dir, config: config
     };
+    debug(rt);
+    return rt;
 };
 
 var main = function () {
