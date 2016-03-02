@@ -6,15 +6,17 @@ let {
 
 let path = require('path')
 let debug = require('debug')(__filename)
+let parse = require('./lib/parse')
 
 let getOptions = doc => {
     "use strict"
     let o = $d(doc)
     let help = $o('-h', '--help', false, o)
-    let dir = o.DIR || false
+    let json = o['json'] || false;
+    let dir = o.DIR || false;
     let config = $o('-c', '--config', path.normalize(path.join(dir, 'config.yaml')), o);
     let rt = {
-        help, dir, config
+        help, dir, config, json
     }
     debug(rt)
     return rt
@@ -23,10 +25,16 @@ let getOptions = doc => {
 let main = () => {
     $f.readLocal('docs/usage.md').then(it => {
         let {
-            help
+            help, dir, config, json
         } = getOptions(it);
-        if (help) {
-            console.log(it)
+        if (json) {
+            parse(dir, config).then( (json) => {
+                console.log(JSON.stringify(json, 0, 4));
+            })
+        } else {
+            if (help) {
+                console.log(it)
+            }
         }
     })
 }
