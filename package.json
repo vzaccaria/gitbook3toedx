@@ -27,11 +27,16 @@
     "chai-as-promised": "5.1.0",
     "debug": "^2.2.0",
     "diy-build": "1.0.8",
+    "flat": "2.0.0",
     "git-hist": "0.2.0",
     "mustache": "2.1.2",
     "remark": "4.1.1",
+    "remark-html": "3.0.0",
     "shelljs": "0.5.1",
     "stupid-replace": "0.0.3",
+    "underscore.string": "3.3.4",
+    "unist-util-index": "0.1.0",
+    "unist-util-visit": "1.0.1",
     "xyz": "0.5.0",
     "zaccaria-cli": "0.2.0"
   }

@@ -1,0 +1,15 @@
+- name: Basics
+  scheduled: W1
+  file: basics/README.md
+  subtopics:
+    - { name: Comments  , scheduled: W2 , file: basics/comments.md }
+    - { name: Variables , scheduled: W3 , file: basics/variables.md }
+    - { name: Types     , scheduled: W4 , file: basics/types.md }
+    - { name: Equality  , scheduled: W5 , file: basics/equality.md, hw: true }
+
+- name: Numbers
+  scheduled: W6
+  file: numbers/README.md
+  lab: true
+  subtopics:
+    - { name: Creation , file: numbers/create.md }

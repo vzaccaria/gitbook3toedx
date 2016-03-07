@@ -14,19 +14,20 @@ course:
     # image:  'course-image.jpg'
 
 
-    start: 'January 1, 2015 8:00'
-    end: 'June 3, 2015'
+    start: '2016 10 01'
+    end: '2017 06 01'
 
 grading:
     GRADE_CUTOFFS:
       pass: 0.6
 
     GRADER:
-      - min_count: 3
-        weight: 1
-        type: "Homework"
-        drop_count: 0
-        short_label: "HW"
+      HW: { min_count: 3,
+        weight: 1,
+        type: "Homework",
+        drop_count: 0,
+        short_label: HW
+        }
 
 xqueue:
     name:   'extgrad-zaccaria-com'
@@ -57,3 +58,22 @@ short-description: |
     # Informatica B
 
     Questo e` Il corso di informatica B!
+
+
+chapters:
+
+  - name: Basics
+    scheduledWeek: 1
+    file: basics/README.md
+    sequentials:
+       - { name: Comments  , scheduledWeek: 2 , file: basics/comments.md }
+       - { name: Variables , scheduledWeek: 3 , file: basics/variables.md }
+       - { name: Types     , scheduledWeek: 4 , file: basics/types.md }
+       - { name: Equality  , scheduledWeek: 5 , file: basics/equality.md, gradeAs: "HW" }
+
+  - name: Numbers
+    scheduledWeek: 6
+    file: numbers/README.md
+    lab: true
+    sequentials:
+        - { name: Creation , file: numbers/create.md }
