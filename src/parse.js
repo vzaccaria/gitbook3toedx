@@ -5,7 +5,8 @@ let {
 
 let $t = require('moment')
 let uid = require('uid')
-let expandContent = require('./expandContent')
+let { expandContent, expandTemplates } = require('./expandContent')
+let { warn, info, error } = require('./messages')
 
 let slugify = require("underscore.string/slugify");
 
@@ -60,7 +61,13 @@ function postParse(config) {
 }
 
 function expandAllContent(dir, config) {
-    config.chapters = $b.map(config.chapters, _.curry(expandContent)(dir))
+    config.chapters = $b.map(config.chapters, (c) => {
+        c.sequentials = $b.map(c.sequentials, (s) => {
+            return expandContent(dir, s)
+        })
+        c = expandContent(dir, c)
+        return c
+    })
     return $b.props(config)
 }
 
@@ -76,6 +83,7 @@ function parse(dir, config) {
         .then(postParse)
         .then(fixChaptersAndSequentials)
         .then(_.curry(expandAllContent)(dir))
+        .then(expandTemplates)
 }
 
 
