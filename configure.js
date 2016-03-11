@@ -32,7 +32,7 @@ generateProject(_ => {
 
     _.collect("test", _ => {
         _.cmd("make all")
-        _.cmd("./index.js json ./fixtures/source")
+        _.cmd("./index.js json ./fixtures/source | ./index.js pack -r")
     })
 
     _.collect("update", _ => {

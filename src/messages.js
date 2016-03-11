@@ -9,7 +9,7 @@ function info(msg) {
 }
 
 function error(msg) {
-    console.error(chalk.blue(' ERR: ') + msg);
+    console.error(chalk.red(' ERR: ') + msg);
 }
 
 module.exports = { warn, info, error }
