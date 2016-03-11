@@ -24,7 +24,7 @@ function fixSequential(config, s) {
     if(!_.isUndefined(s.gradeAs) && _.isUndefined(config.grading.GRADER[s.gradeAs])) {
         throw `grading type ${s.gradeAs} does not exist`
     } else {
-        s.format = config.grading.GRADER[s.gradeAs]
+        s.format = s.gradeAs
         s.graded = !_.isUndefined(s.format)
     }
     s.displayName = s.name
