@@ -19,7 +19,7 @@ function fixStartDate(d, x) {
     return x;
 }
 
-function fixSequential(config, s) {
+function fixSequentialNameAndType(config, s) {
     s = fixStartDate(config.course.start, s)
     if(!_.isUndefined(s.gradeAs) && _.isUndefined(config.grading.GRADER[s.gradeAs])) {
         throw `grading type ${s.gradeAs} does not exist`
@@ -33,10 +33,10 @@ function fixSequential(config, s) {
     return s;
 }
 
-function fixChaptersAndSequentials(config) {
+function fixChaptersAndSequentialsNames(config) {
     config.chapters = _.map(config.chapters, (c) => {
         c = fixStartDate(config.course.start, c)
-        c.sequentials = _.map(c.sequentials, _.curry(fixSequential)(config))
+        c.sequentials = _.map(c.sequentials, _.curry(fixSequentialNameAndType)(config))
 
         c.displayName = c.name
         c.urlName = slugify(c.name)+`-${uid(8)}`
@@ -45,7 +45,7 @@ function fixChaptersAndSequentials(config) {
     return config
 }
 
-function postParse(config) {
+function fixCourseAndOrganizationName(config) {
     // Fix course
     config.course.urlName = `${config.course.year}-${config.course.season}`;
     config.course.displayName = config.course.name
@@ -60,15 +60,46 @@ function postParse(config) {
 
 }
 
-function expandAllContent(dir, config) {
+function loadAllMarkdownContent(dir, config) {
     config.chapters = $b.map(config.chapters, (c) => {
         c.sequentials = $b.map(c.sequentials, (s) => {
-            return expandContent(dir, s)
+            return expandContent(dir, s) //
         })
-        c = expandContent(dir, c)
+        c = expandContent(dir, c) // Expand chapter introduction.
         return c
     })
     return $b.props(config)
+}
+
+function produceVertical(name, content) {
+    // should have an urlName and a type (default=='normal') and a content
+    const urlName = slugify(name)+`-${uid(8)}`
+    const type = 'normal'
+    return { urlName, type, content }
+}
+
+function produceVerticals(config) {
+    config.chapters = _.map(config.chapters, (c) => {
+
+        // Each sequential has a markdown file that should become a vertical
+        c.sequentials = _.map(c.sequentials, (s) => {
+            s.verticals = [ produceVertical(s.displayName, s.content ) ]
+            s.content = undefined
+            return s
+        });
+
+        // Each chapter has an initial sequential with a single vertical
+        const vertical = produceVertical(c.displayName, c.content);
+        const firstsequential = {
+            displayName: c.name,
+            urlName: c.urlName+'-STARTSEQ',
+            verticals: [ vertical ]
+        }
+        c.sequentials = [ firstsequential ].concat(c.sequentials)
+        c.content = undefined
+        return c
+    })
+    return config
 }
 
 function parse(dir, config) {
@@ -80,9 +111,10 @@ function parse(dir, config) {
         config = $yaml(config);
         return config
     })
-        .then(postParse)
-        .then(fixChaptersAndSequentials)
-        .then(_.curry(expandAllContent)(dir))
+        .then(fixCourseAndOrganizationName)
+        .then(fixChaptersAndSequentialsNames)
+        .then((config) => loadAllMarkdownContent(dir, config))
+        .then(produceVerticals)
         .then(expandTemplates)
 }
 

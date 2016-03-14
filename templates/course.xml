@@ -13,21 +13,27 @@
  >
 
  {% for chapter in chapters %}
-  <chapter display_name="{{chapter.displayName}}" url_name="{{chapter.urlName}}"{% if chapter.start %} start='{{chapter.start | datejs }}' {% endif %}>
-  {% for sequential in chapter.sequentials %}
+ <chapter display_name="{{chapter.displayName}}" url_name="{{chapter.urlName}}"{% if chapter.start %} start='{{chapter.start | datejs }}' {% endif %}>
+   {% for sequential in chapter.sequentials %}
+
     <sequential display_name="{{sequential.displayName}}" url_name="{{sequential.urlName}}"
       {% if sequential.start %} start='{{sequential.start | datejs }}' {% endif %}
       graded="{{sequential.graded}}"
       {% if sequential.format %} format="{{sequential.format}}" {% endif %}
     >
-
      {% for vertical in sequential.verticals %}
-
       {% if vertical.type == 'normal' %}
       <vertical display_name="{{sequential.displayName}} - Step {{forloop.index}}" url_name="{{vertical.urlName}}">
         <html display_name="{{sequential.displayName}} - Step {{forloop.index}}">
 
-          <script type='text/javascript' src='/static/client.js' />
+          <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/prism.min.js'/>
+          <script type='text/javascript'>
+            function onLoad () { Prism.highlightAll(); window.removeEventListener('load', onLoad); };
+            console.log("Adding event listener");
+            window.addEventListener('load', onLoad, false);
+          </script>
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/themes/prism.min.css" rel="stylesheet" />
+
 
          {{vertical.content}}
         </html>
@@ -52,13 +58,9 @@
                 </codeparam>
 
             </coderesponse>
-
-
         </problem>
       </vertical>
-
       {% endif %}
-
       {% if vertical.type == 'plugin' %}
       <vertical display_name="{{sequential.displayName}} - Step {{forloop.index}}" url_name="{{vertical.urlName}}">
         <problem display_name="{{sequential.displayName}} - Step {{forloop.index}}">
@@ -66,9 +68,9 @@
         </problem>
       </vertical>
       {% endif %}
-
      {% endfor %}
-    </sequential>
+   </sequential>
+
   {% endfor %}
   </chapter>
  {% endfor %}

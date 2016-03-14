@@ -20,7 +20,7 @@ The most common types are:
 
 * **undefined**: the undefined value is obtained when you use an object property that does not exist, or a variable that has been declared, but has no value assigned to it.
 
-JavaScript is a *“loosely typed”* language, which means that you don't have to explicitly declare what type of data the variables are. You just need to use the ```var``` keyword to indicate that you are declaring a variable, and the interpreter will work out what data type you are using from the context, and use of quotes.
+JavaScript is a *loosely typed* language, which means that you don't have to explicitly declare what type of data the variables are. You just need to use the ```var``` keyword to indicate that you are declaring a variable, and the interpreter will work out what data type you are using from the context, and use of quotes.
 
 
 
