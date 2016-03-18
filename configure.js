@@ -36,6 +36,10 @@ generateProject(_ => {
         _.cmd("./index.js json ./fixtures/source | ./index.js pack")
     })
 
+    _.collect("sandbox", _ => {
+        _.cmd("./node_modules/.bin/babel-node src/sandbox.js")
+    })
+
     _.collect("update", _ => {
         _.cmd("make clean && ./node_modules/.bin/babel configure.js | node")
     });

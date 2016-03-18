@@ -1,43 +1,43 @@
-# Variable types
+Tipi
+====
 
-Computers are sophisticated and can make use of more complex variables than just numbers. This is where variable types come in. Variables come in several types and different languages support different types.
+I computer sono sofisticati e possono fare uso di variabili più
+complesse di semplici numeri, ovvero possono essere di **tipi**
+differenti. I tipi più comuni sono:
 
-The most common types are:
+-   **Numeri**
+    -   **Float (virgola mobile)**: 1.21323, 4, -33.5, 100004 oppure
+        0.123
+    -   **Integer (interi)**: 1, 12, -33, 140 ma non 1.233
+-   **Stringhe**: come "elefante", "acqua", oppure "caspita sei alto!"
 
-* **Numbers**
-    * **Float**: a number, like 1.21323, 4, -33.5, 100004 or 0.123
-    * **Integer**: a number like 1, 12, -33, 140 but not 1.233
+-   **Booleani**: possono essere **1** (vero) o **0** (falso) ma non di
+    più. Vedremo che tutti gli operatori di confronto ritornano
+    *booleani*.
 
-* **String**: a line of text like "boat", "elephant" or "damn, you are tall!"
+-   **Array**: una sequenza di numeri 1,2,3,4,... o altri tipi
 
-* **Boolean**: either true or false, but nothing else
+-   **Strutture dati**: rappresentano un oggetto complessi
 
-* **Arrays**: a collection of values like: 1,2,3,4,'I am bored now'
+In Octave non devi esplicitamente dichiarare il tipo di una variabile.
+Devi semplicemente specificare durante l'assegnamento qual è il valore
+che variabile deve avere; l'interprete deciderà automaticamente che tipo
+assegnare quella variabile.
 
-* **Objects**: a representation of a more complex object
+------------------------------------------------------------------------
 
-* **null**: a variable that contains null contains no valid Number, String, Boolean, Array, or Object
+Fare in modo che ad `a` venga assegnato un intero
 
-* **undefined**: the undefined value is obtained when you use an object property that does not exist, or a variable that has been declared, but has no value assigned to it.
-
-JavaScript is a *loosely typed* language, which means that you don't have to explicitly declare what type of data the variables are. You just need to use the ```var``` keyword to indicate that you are declaring a variable, and the interpreter will work out what data type you are using from the context, and use of quotes.
-
-
-
----
-
-Create a variable named `a` using the keyword `var`.
-
-```js
-
+``` matlab
+a=
 ```
 
-```js
-var a;
+``` matlab
+a=1;
 ```
 
-```js
-a;
+``` matlab
+isInteger(a)
 ```
 
----
+------------------------------------------------------------------------

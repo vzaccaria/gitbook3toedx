@@ -1,48 +1,62 @@
-Comments
+Commenti
 ========
 
-Commenti!!
+I commenti sono linee di codice che vengono ignorate dall'interprete. Di
+fatto sono costituite da testo che non viene interpretato ma serve solo
+al programmatore per ricordarsi ciò che aveva scritto!
 
-In Javascript, comments can be written in 2 different ways:
+* x
+* y
+* z
 
--   Line starting with `//`:
+In Octave i commenti vengono marcati con il simbolo percentuale:
 
-<!-- -->
-
-``` javascript
-// This is a comment, it will be ignored by the interpreter
-var a = "this is a variable defined in a statement";
+``` matlab
+% Questo è un commento
+1+1
 ```
 
--   Section of code starting with `/*`and ending with `*/`, this method
-    is used for multi-line comments:
+---
 
-<!-- -->
+Esercizio: marcami come commento
 
-``` javascript
-/*
-This is a multi-line comment,
-it will be ignored by the interpreter
-*/
-var a = "this is a variable defined in a statement";
+* x
+* y
+* z
+
+``` matlab
+Marcami come commento
+3+3
 ```
 
-------------------------------------------------------------------------
-
-Mi arracomando !!!!!
-
-``` quiz
-Pippo
-Pluto
-Paperino
+``` matlab
+% Marcami come commento
+3+3
 ```
 
-``` quiz
-Pippo
+``` matlab
+assert(true);
 ```
 
-``` quiz
-Feedback
+---
+
+Questo e' altro testo
+
+---
+
+Questo e' altro esercizio
+
+
+``` matlab
+Marcami come commento
+3+3
 ```
 
-------------------------------------------------------------------------
+``` matlab
+% Marcami come commento
+3+3
+```
+
+``` matlab
+assert(true);
+```

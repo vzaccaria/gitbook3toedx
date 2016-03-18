@@ -1,7 +1,7 @@
 let { $fs, $b, _ } = require('zaccaria-cli')
 let html = require('remark-html');
 // Use xhtml for remark to force self closing tags..
-let $r = require('remark')().use(html, {xhtml: true});
+let $r = require('remark')().use(html, {xhtml: true, entities: 'numbers'});
 let Liquid = require("liquid-node")
 let engine = new Liquid.Engine
 let datejs = require('moment')

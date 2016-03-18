@@ -5,8 +5,10 @@ let {
 
 let $t = require('moment')
 let uid = require('uid')
-let { expandContent, expandTemplates } = require('./expandContent')
+let { expandTemplates } = require('./expandContent')
+let { readVerticals } = require('./readVerticals')
 let { warn, info, error } = require('./messages')
+let debug = require('debug')(__filename)
 
 let slugify = require("underscore.string/slugify");
 
@@ -36,10 +38,16 @@ function fixSequentialNameAndType(config, s) {
 function fixChaptersAndSequentialsNames(config) {
     config.chapters = _.map(config.chapters, (c) => {
         c = fixStartDate(config.course.start, c)
+        c.sequentials = [ {
+            name: c.name,
+            scheduledWeek: c.scheduledWeek,
+            file: c.file
+        } ].concat(c.sequentials)
         c.sequentials = _.map(c.sequentials, _.curry(fixSequentialNameAndType)(config))
-
         c.displayName = c.name
         c.urlName = slugify(c.name)+`-${uid(8)}`
+        c.file = undefined
+        c.scheduledWeek = undefined
         return c;
     })
     return config
@@ -63,40 +71,26 @@ function fixCourseAndOrganizationName(config) {
 function loadAllMarkdownContent(dir, config) {
     config.chapters = $b.map(config.chapters, (c) => {
         c.sequentials = $b.map(c.sequentials, (s) => {
-            return expandContent(dir, s) //
+            return readVerticals(dir, s) //
         })
-        c = expandContent(dir, c) // Expand chapter introduction.
-        return c
+        return $b.props(c)
     })
     return $b.props(config)
 }
 
-function produceVertical(name, content) {
+function produceVertical(name, vertical) {
     // should have an urlName and a type (default=='normal') and a content
-    const urlName = slugify(name)+`-${uid(8)}`
-    const type = 'normal'
-    return { urlName, type, content }
+    vertical.urlName = slugify(name)+`-${uid(8)}`
+    return vertical
 }
 
 function produceVerticals(config) {
     config.chapters = _.map(config.chapters, (c) => {
-
         // Each sequential has a markdown file that should become a vertical
         c.sequentials = _.map(c.sequentials, (s) => {
-            s.verticals = [ produceVertical(s.displayName, s.content ) ]
-            s.content = undefined
+            s.verticals = _.map(s.verticals, _.curry(produceVertical)(s.name))
             return s
         });
-
-        // Each chapter has an initial sequential with a single vertical
-        const vertical = produceVertical(c.displayName, c.content);
-        const firstsequential = {
-            displayName: c.name,
-            urlName: c.urlName+'-STARTSEQ',
-            verticals: [ vertical ]
-        }
-        c.sequentials = [ firstsequential ].concat(c.sequentials)
-        c.content = undefined
         return c
     })
     return config

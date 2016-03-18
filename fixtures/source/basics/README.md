@@ -1,19 +1,59 @@
-# Basics about Programming
+Le basi della programmazione
+============================
 
-In this first chapter, we'll learn the basics of programming and the Javascript language.
+In questo primo capitolo impareremo le basi della programmazione in
+Octave.
 
-Programming means writing code. A book is made up of chapters, paragraphs, sentences, phrases, words and finally punctuation and letters, likewise a program can be broken down into smaller and smaller components. For now, the most important is a statement. A statement is analogous to a sentence in a book. On its own, it has structure and purpose, but without the context of the other statements around it, it isn't that meaningful.
+Programmare significa scrivere; proprio come un libro è fatto da
+capitoli, paragrafi, frasi, parole e lettere, in maniera simile un
+programma può essere spezzato in componenti sempre più piccole.
 
-A statement is more casually (and commonly) known as a *line of code*. That's because statements tend to be written on individual lines. As such, programs are read from top to bottom, left to right. You might be wondering what code (also called source code) is. That happens to be a broad term which can refer to the whole of the program or the smallest part. Therefore, a line of code is simply a line of your program.
+Per il momento la più importante componente che guarderemo è lo
+**statement**. Uno **statement** è analogo ad una frase in un libro. Da
+solo infatti uno statement non ha tanto significato; è solo all'interno
+di un contesto che assume un rilievo importante.
 
-Here is a simple example:
+Lo statement è anche comunemente conosciuto come **linea di codice**;
+questo è perché gli statement tendono a essere scritti in sequenza su
+linee individuali all'interno di un file testuale (chiamato **codice
+sorgente**, o programma).
 
-```javascript
-var hello = "Hello";
-var world = "World";
+Una linea di codice è quindi una linea del tuo programma.
 
-// Message equals "Hello World"
-var message = hello + " " + world;
+Ecco il primo esempio di programma Octave che andremo ad esaminare (solo
+due righe di codice!):
+
+``` matlab
+1+1
+2+2
 ```
 
-This code can be executed by another program called an *interpreter* that will read the code, and execute all the statements in the right order.
+Questo programma deve essere letto dall'interprete Octave che esegue,
+linea per linea, le istruzioni che gli abbiamo dato. Abbiamo due
+modalità per far questo:
+
+1.  Invocare l'interprete (le modalità cambiano a seconda del sistema
+    che state utilizzando, e.g. Windows, Linux, OSX) e digitare
+    interattivamente il programma:
+
+    ``` matlab
+    octave:1> 1+1 «INVIO»
+    ans =  2
+    octave:2> 2+2 «INVIO»
+    ans =  4
+    octave:3>
+    ```
+
+2.  Scrivere le istruzioni in un file di testo (ad. es., `esempio.m`) ed
+    eseguirlo con l'interprete (anche qui le modalità cambiano a seconda
+    del sistema che state utilizzando). Otterrete in uscita la stampa a
+    video seguente:
+
+    ``` matlab
+    ans =  2
+    ans =  4
+    ```
+
+In questo corso preferiamo usare la seconda modalità (anche per gli
+esercizi che dovrete risolvere), ma in alcuni casi faremo riferimento
+anche alla prima.

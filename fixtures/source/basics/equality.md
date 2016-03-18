@@ -1,49 +1,64 @@
-Equality
-========
+Test di uguaglianza
+===================
 
-Programmers frequently need to determine the equality of variables in
-relation to other variables. This is done using an equality operator.
+I programmatori devono frequentemente determinare se due variabili sono
+uguali oppure no. Questo viene fatto attraverso un operatore di
+uguaglianza.
 
-The most basic equality operator is the `==` operator. This operator
-does everything it can to determine if two variables are equal, even if
-they are not of the same type.
+L'operatore per determinare l'uguaglianza di variabili è `==`
+(uguale-uguale). Il valore risultante può essere `1` (**vero**) o `0`
+(**falso**) e, a sua volta, può essere inserito in un'altra variabile:
 
-For example, assume:
-
-``` javascript
-var foo = 42;
-var bar = 42;
-var baz = "42";
-var qux = "life";
+``` matlab
+a = 1
+b = 1
+c = (a == b)
 ```
 
-`foo == bar` will evaluate to `true` and `baz == qux` will evaluate to
-`false`, as one would expect. However, `foo == baz` will *also* evaluate
-to `true` despite `foo` and `baz` being different types. Behind the
-scenes the `==` equality operator attempts to force its operands to the
-same type before determining their equality. This is in contrast to the
-`===` equality operator.
+In questo caso il valore finale della variabile C è uguale a `1`.
 
-The `===` equality operator determines that two variables are equal if
-they are of the same type *and* have the same value. With the same
-assumptions as before, this means that `foo === bar` will still evaluate
-to `true`, but `foo === baz` will now evaluate to `false`. `baz === qux`
-will still evaluate to `false`.
+Altri operatori relazionali
+---------------------------
+
+L'operatore `==` fa parte dell'insieme più ampio di **operatori
+relazionali**, ovvero operatori che permettono di stabilire che
+relazione hanno due numeri:
+
+| Operatore | Significato             |
+|-----------|-------------------------|
+| `<`       | Minore di.              |
+| `<=`      | Minore di o uguale a.   |
+| `>`       | Maggiore di.            |
+| `>=`      | Maggiori di o uguale a. |
+| `==`      | Uguale a.               |
+| `~=`      | Diverso da.             |
+
+Ad esempio, l'operatore `<=` (minore uguale) è tale che il seguente
+codice:
+
+``` matlab
+a = 3
+b = 6
+c = (a <= b)
+```
+
+assegni a `c` il valore 1.
 
 ------------------------------------------------------------------------
 
-Mi arracomando2 !!!!!
+Esercizio: Se avessimo usato l'espressione `c = (a ~= b)`, quale sarebbe
+stato il valore finale di `c`?
 
 ``` quiz
-Pippo
-Pluto
-Paperino
+0
+1
+-1
 ```
 
 ``` quiz
-Pluto
+1
 ```
 
 ``` quiz
-another feedback
+L'operatore `~=` assegna a `c` il valore 1 solo se `a` e `b` sono diversi.
 ```
