@@ -93,11 +93,12 @@ function splitOnBreaks(o) {
     let verticals = []
 
     // so o.breakpoints has at least 2 values
-    const s = o.breakpoints.length
+    const s = o.breakpoints.length;
     for(let i=0; i< (s-1); i++) {
-        verticals.push(c.slice(o.breakpoints[i], o.breakpoints[i+1]))
+            verticals.push(c.slice(o.breakpoints[i], o.breakpoints[i+1]))
     }
     verticals = _.map(verticals, (c) => c.join('\n'))
+    verticals = _.map(verticals, (c) => c.replace(/\* \* \*/g, ''))
     verticals = _.map(verticals, analyzeChunk)
     verticals = _.map(verticals, (v) => {
         v.content = $h.process(v.content)
