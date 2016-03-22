@@ -23,6 +23,7 @@
   "dependencies": {
     "babel": "4.7.16",
     "babel-eslint": "5.0.0",
+    "base64-url": "1.2.1",
     "chai": "3.0.0",
     "chai-as-promised": "5.1.0",
     "chalk": "1.1.1",

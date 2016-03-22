@@ -12,12 +12,6 @@ function toMarkdown(content) {
     return $r.process(content)
 }
 
-function expandContent(dir, o) {
-    info(`reading ${dir}/${o.file}`);
-    o.content = $fs.readFileAsync(`${dir}/${o.file}`, 'utf8').then(toMarkdown)
-    return $b.props(o)
-}
-
 let files = {
     '/course.xml': $fs.readFileSync(__dirname+'/../templates/course.xml', 'utf-8'),
     '/about/overview.html': $fs.readFileSync(__dirname+'/../templates/overview.html', 'utf-8'),
@@ -46,4 +40,4 @@ function expandTemplates(config) {
 
 
 
-module.exports = { expandContent, expandTemplates }
+module.exports = { expandTemplates }

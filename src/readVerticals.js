@@ -1,19 +1,42 @@
 let html = require('remark-html');
 let flat = require('flat')
 let zone = require('mdast-zone')
+let b64 = require('base64-url')
 
 const visit = require('unist-util-visit')
+let {
+    warn, info, error
+} = require('./messages')
 
 let {
     $fs, $b, _
 } = require('zaccaria-cli')
 
 let $r = require('remark')()
-let $h = require('remark')().use(html, {xhtml: true, entities: 'numbers'});
-    //.use(html, {xhtml: true, entities: 'numbers'});
+let $h = require('remark')().use(html, {
+    xhtml: true,
+    entities: 'numbers'
+});
+//.use(html, {xhtml: true, entities: 'numbers'});
+
+function extractQuiz(p) {
+    p.type = 'quiz'
+    p.choices = p.code.base.split('\n')
+    p.solutions = p.code.solution.split('\n')
+    p.feedback = p.code.validation
+    p.items = _.map(p.choices, (it) => {
+        return {
+            text: it,
+            correct: _.includes(p.solutions, it)
+        }
+    })
+    p.code = undefined;
+    p.lang = undefined;
+    return p
+}
 
 
-function getExercise(p) {
+function getExercise(p, init, lastParagraphLine) {
     /* Json schema of the vertical {
        content: ...
        lang:
@@ -27,23 +50,29 @@ function getExercise(p) {
      }
     */
     let cha = p.ast.children
-    let init = p.init
-    let content = (p.content.split('\n').slice(0, p.lastParagraphLine)).join('\n')
+    let content = (p.content.split('\n').slice(0, lastParagraphLine)).join('\n')
     p = {
         content: content,
         lang: cha[init].lang,
         code: {
             base: cha[init].value,
-            solution: cha[init+1].value,
-            validation: cha[init+2].value,
+            solution: cha[init + 1].value,
+            validation: cha[init + 2].value,
             context: "",
             lang: cha[init].lang
         },
         type: "exercise"
     }
-    p.ast = undefined
-    p.grader_payload = "XYZ"
-    return p;
+    if (p.lang === 'quiz') {
+        return extractQuiz(p)
+    } else {
+        p.ast = undefined
+        p.grader_payload = {
+            payload: b64.encode(JSON.stringify(p.code))
+        }
+        p.grader_payload = JSON.stringify(p.grader_payload)
+        return p;
+    }
 }
 
 
@@ -64,38 +93,49 @@ function getBreaks(o) {
     return o
 }
 
-function isExercise(p) {
+function _isExercise(p) {
     let bitmap = _.map(p.ast.children, (x) => x.type === 'code');
-    for(let i=0; i<bitmap.length-2; i++) {
-        if(bitmap[i] && bitmap[i+1] && bitmap[i+2]) {
-            p.isExercise = true;
-            p.init = i;
-            p.lastParagraphLine = p.ast.children[i].position.start.line - 1;
-            return getExercise(p);
+    for (let i = 0; i < bitmap.length - 2; i++) {
+        if (bitmap[i] && bitmap[i + 1] && bitmap[i + 2]) {
+            return {
+                isExercise: true,
+                init: i,
+                lastParagraphLine: p.ast.children[i].position.start.line - 1
+            }
         }
     }
-    p.isExercise = false;
-    p.type = 'normal'
-    p.ast = undefined
-    return p;
+    return {
+        isExercise: false
+    }
 }
 
 function analyzeChunk(o) {
     let p = {}
     p.content = o
     p.ast = $r.parse(p.content)
-    return isExercise(p)
+    let {
+        isExercise, init, lastParagraphLine
+    } = _isExercise(p)
+    if (isExercise) {
+        p = getExercise(p, init, lastParagraphLine)
+    } else {
+        p = _.assign(p, {
+            type: 'normal'
+        })
+        p.ast = undefined
+    }
+    return p;
 }
 
 function splitOnBreaks(o) {
     const c = o.markdown.split('\n')
-    o.breakpoints.push(c.length -1)
+    o.breakpoints.push(c.length - 1)
     let verticals = []
 
     // so o.breakpoints has at least 2 values
     const s = o.breakpoints.length;
-    for(let i=0; i< (s-1); i++) {
-            verticals.push(c.slice(o.breakpoints[i], o.breakpoints[i+1]))
+    for (let i = 0; i < (s - 1); i++) {
+        verticals.push(c.slice(o.breakpoints[i], o.breakpoints[i + 1]))
     }
     verticals = _.map(verticals, (c) => c.join('\n'))
     verticals = _.map(verticals, (c) => c.replace(/\* \* \*/g, ''))
@@ -114,9 +154,11 @@ function splitOnBreaks(o) {
 
 function readVerticals(dir, file) {
     return readFile(dir, file)
-    .then(expandContent)
-    .then(getBreaks)
-    .then(splitOnBreaks)
+        .then(expandContent)
+        .then(getBreaks)
+        .then(splitOnBreaks)
 }
 
-module.exports = { readVerticals }
+module.exports = {
+    readVerticals
+}

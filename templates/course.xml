@@ -61,10 +61,26 @@
         </problem>
       </vertical>
       {% endif %}
-      {% if vertical.type == 'plugin' %}
+      {% if vertical.type == 'quiz' %}
       <vertical display_name="{{sequential.displayName}} - Step {{forloop.index}}" url_name="{{vertical.urlName}}">
         <problem display_name="{{sequential.displayName}} - Step {{forloop.index}}">
           {{vertical.content}}
+          <choiceresponse>
+            <checkboxgroup label="">
+              {% for i in vertical.items %}
+              <choice correct="{{i.correct}}">
+                <text>{{i.text}}</text>
+              </choice>
+              {% endfor %}
+            </checkboxgroup>
+          </choiceresponse>
+          <solution>
+            <div class="detailed-solution">
+              <p>Feedback</p>
+              <p>{{vertical.feedback}}</p>
+            </div>
+          </solution>
+
         </problem>
       </vertical>
       {% endif %}
