@@ -70,7 +70,11 @@ function getExercise(p, init, lastParagraphLine) {
         p.grader_payload = {
             payload: b64.encode(JSON.stringify(p.code))
         }
-        p.grader_payload = JSON.stringify(p.grader_payload)
+        p.grader_payload  = JSON.stringify(p.grader_payload)
+        p.code.base       = _.escape(p.code.base)
+        p.code.solution   = _.escape(p.code.solution)
+        p.code.validation = _.escape(p.code.validation)
+        p.code.context    = _.escape(p.code.context)
         return p;
     }
 }
@@ -140,6 +144,7 @@ function splitOnBreaks(o) {
     verticals = _.map(verticals, (c) => c.join('\n'))
     verticals = _.map(verticals, (c) => c.replace(/\* \* \*/g, ''))
     verticals = _.map(verticals, analyzeChunk)
+    verticals = _.filter(verticals, (v) => v.content.length !== 0)
     verticals = _.map(verticals, (v) => {
         v.content = $h.process(v.content)
         return v

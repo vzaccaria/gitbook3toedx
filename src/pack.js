@@ -9,13 +9,15 @@ const path = require('path')
 function packit(options) {
     const coursedir = path.normalize(path.join(process.cwd(), '_course'))
     return $r.stdin().then((j) => {
+        let config = JSON.parse(j)
         warn(`removing ${coursedir} if existing`);
         $s.rm('-rf', coursedir);
         info(`creating ${coursedir}`);
         $s.mkdir('-p', coursedir);
         $s.mkdir('-p', `${coursedir}/about`);
         $s.mkdir('-p', `${coursedir}/policies`);
-        _.map(JSON.parse(j).expandedFiles, (v, k) => {
+        $s.mkdir('-p', `${coursedir}/policies/${config.course.urlName}`);
+        _.map(config.expandedFiles, (v, k) => {
             info(`writing ${coursedir}${k}`)
             v.to(`${coursedir}${k}`)
         })

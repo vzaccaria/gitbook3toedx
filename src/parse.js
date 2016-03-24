@@ -5,9 +5,15 @@ let {
 
 let $t = require('moment')
 let uid = require('uid')
-let { expandTemplates } = require('./expandContent')
-let { readVerticals } = require('./readVerticals')
-let { warn, info, error } = require('./messages')
+let {
+    expandTemplates
+} = require('./expandContent')
+let {
+    readVerticals
+} = require('./readVerticals')
+let {
+    warn, info, error
+} = require('./messages')
 let debug = require('debug')(__filename)
 
 let slugify = require("underscore.string/slugify");
@@ -23,14 +29,14 @@ function fixStartDate(d, x) {
 
 function fixSequentialNameAndType(config, s) {
     s = fixStartDate(config.course.start, s)
-    if(!_.isUndefined(s.gradeAs) && _.isUndefined(config.grading.GRADER[s.gradeAs])) {
-        throw `grading type ${s.gradeAs} does not exist`
+    if (!_.isUndefined(s.gradeAs) && _.isUndefined(config.grading.GRADER[s.gradeAs])) {
+        throw `grading type ${s.gradeAs} does not exist as a key in the GRADER subsection`
     } else {
         s.format = s.gradeAs
         s.graded = !_.isUndefined(s.format)
     }
     s.displayName = s.name
-    s.urlName = slugify(s.name)+`-${uid(8)}`
+    s.urlName = slugify(s.name) + `-${uid(8)}`
 
     return s;
 }
@@ -38,14 +44,14 @@ function fixSequentialNameAndType(config, s) {
 function fixChaptersAndSequentialsNames(config) {
     config.chapters = _.map(config.chapters, (c) => {
         c = fixStartDate(config.course.start, c)
-        c.sequentials = [ {
+        c.sequentials = [{
             name: c.name,
             scheduledWeek: c.scheduledWeek,
             file: c.file
-        } ].concat(c.sequentials)
+        }].concat(c.sequentials)
         c.sequentials = _.map(c.sequentials, _.curry(fixSequentialNameAndType)(config))
         c.displayName = c.name
-        c.urlName = slugify(c.name)+`-${uid(8)}`
+        c.urlName = slugify(c.name) + `-${uid(8)}`
         c.file = undefined
         c.scheduledWeek = undefined
         return c;
@@ -80,7 +86,7 @@ function loadAllMarkdownContent(dir, config) {
 
 function produceVertical(name, vertical) {
     // should have an urlName and a type (default=='normal') and a content
-    vertical.urlName = slugify(name)+`-${uid(8)}`
+    vertical.urlName = slugify(name) + `-${uid(8)}`
     return vertical
 }
 
@@ -96,20 +102,33 @@ function produceVerticals(config) {
     return config
 }
 
+function addGradingPolicy(config) {
+    if (!_.isUndefined(config.grading)) {
+        let grading = config.grading;
+        grading.GRADER = _.map(grading.GRADER, (v, k) => {
+            v.short_label = k
+            return v
+        })
+        config.expandedFiles[`/policies/${config.course.urlName}/grading_policy.json`] = JSON.stringify(config.grading, 0, 4)
+    }
+    return config
+}
+
 function parse(dir, config) {
     let files = [
         config
     ];
     files = _.map(files, (x) => $fs.readFileAsync(x, 'utf8'))
     return $b.all(files).then(([config]) => {
-        config = $yaml(config);
-        return config
-    })
+            config = $yaml(config);
+            return config
+        })
         .then(fixCourseAndOrganizationName)
         .then(fixChaptersAndSequentialsNames)
         .then((config) => loadAllMarkdownContent(dir, config))
         .then(produceVerticals)
         .then(expandTemplates)
+        .then(addGradingPolicy)
 }
 
 
