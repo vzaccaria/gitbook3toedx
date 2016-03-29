@@ -34,6 +34,7 @@
     "liquid-node": "2.6.1",
     "mdast-zone": "2.0.1",
     "mocha": "2.4.5",
+    "moment": "2.12.0",
     "mustache": "2.1.2",
     "remark": "4.1.1",
     "remark-html": "3.0.0",
