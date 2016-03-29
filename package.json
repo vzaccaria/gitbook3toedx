@@ -1,6 +1,6 @@
 {
   "name": "gitbook3toedx",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Convert a YAML course definition into importable EDX OLX",
   "main": "index.js",
   "bin": {
