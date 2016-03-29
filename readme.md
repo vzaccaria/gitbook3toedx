@@ -1,5 +1,5 @@
 # gitbook3toedx
-> No name given yet
+> Convert a YAML course definition into importable EDX OLX
 
 ## Install
 
