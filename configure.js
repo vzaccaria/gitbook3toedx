@@ -34,7 +34,8 @@ generateProject(_ => {
         _.cmd("make all")
         //_.cmd("./index.js json ./fixtures/source | jq '.chapters[0].sequentials[4].verticals' ")
         //_.cmd("./index.js json ./fixtures/source | grep 'content' ")
-        _.cmd("./index.js json ./fixtures/source | ./index.js pack")
+        _.cmd("./node_modules/.bin/mocha lib/test.js")
+        //_.cmd("./index.js json ./fixtures/source | ./index.js pack")
     })
 
     _.collect("sandbox", _ => {

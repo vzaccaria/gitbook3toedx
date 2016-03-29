@@ -1,15 +1,22 @@
 let chalk = require('chalk')
+let _ = require('zaccaria-cli')._
 
 function warn(msg) {
-    console.error(chalk.yellow('WARN: ') + msg);
+    if(_.isUndefined(process.env['SILENT'])) {
+        console.error(chalk.yellow('WARN: ') + msg);
+    }
 }
 
 function info(msg) {
-    console.error(chalk.blue('INFO: ') + msg);
+    if(_.isUndefined(process.env['SILENT'])) {
+        console.error(chalk.blue('INFO: ') + msg);
+    }
 }
 
 function error(msg) {
-    console.error(chalk.red(' ERR: ') + msg);
+    if(_.isUndefined(process.env['SILENT'])) {
+        console.error(chalk.red(' ERR: ') + msg);
+    }
 }
 
 module.exports = { warn, info, error }

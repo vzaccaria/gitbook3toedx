@@ -103,10 +103,32 @@ function produceVerticals(config) {
 }
 
 function addGradingPolicy(config) {
+    let gradedVerticals = []
+    config.chapters = _.map(config.chapters, (c) => {
+        c.sequentials = _.map(c.sequentials, (s) => {
+            s.verticals = _.map(s.verticals, (v, k, o) => {
+                if(v.type !== 'normal' && _.isUndefined(s.gradeAs)) {
+                    warn(`Exercise not graded: vertical n. ${k} in ${c.displayName}/${s.displayName} - type ${v.type}`)
+                } else {
+                    if(v.type !== 'normal') {
+                        v.gradeAs = s.gradeAs
+                        info(`Exercise graded    : vertical n. ${k} in ${c.displayName}/${s.displayName} - type ${v.type} graded as ${v.gradeAs}`)
+                        gradedVerticals.push(v)
+                    }
+                }
+                return v
+            })
+            return s
+        })
+        return c
+    })
     if (!_.isUndefined(config.grading)) {
         let grading = config.grading;
         grading.GRADER = _.map(grading.GRADER, (v, k) => {
             v.short_label = k
+            v.min_count = _.countBy(gradedVerticals, (g) => {
+                return g.gradeAs === k
+            }).true
             return v
         })
         config.expandedFiles[`/policies/${config.course.urlName}/grading_policy.json`] = JSON.stringify(config.grading, 0, 4)
