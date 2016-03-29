@@ -8,7 +8,7 @@
   },
   "man": "./man/man1/gitbook3toedx.1",
   "scripts": {
-    "test": "make test"
+    "test": "source setup.sh && make test"
   },
   "repository": {
     "type": "git",
