@@ -56,6 +56,7 @@ Released under the BSD License.
 
 # Bug fixes
 
+-     add missing dependency -- [Mar 29th 16](../../commit/9bebf09bb7e5cdc74828f8a58a4f64456b084ec2)
 -     add moment package -- [Mar 29th 16](../../commit/1f5cdfc6ce71ed6d0e7c6ebd355e79eccd2602b7)
 -     remove thematic breaks -- [Mar 21st 16](../../commit/a96c76eb3561f09cdcd4f3cb0fe73e2658ad3ccd)
 -     sequential format property -- [Mar 11th 16](../../commit/f86acb960f2d656144af2b5e212fdee3ab873b69)
