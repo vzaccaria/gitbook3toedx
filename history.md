@@ -1,6 +1,7 @@
 
 # New features
 
+-     add initial support for static files -- [Apr 21st 16](../../commit/bb81abb42036c28aec85a54c88eccebf77642a8f)
 -     add tests -- [Mar 29th 16](../../commit/82d5bd3144c34db6448d29a4329180f5cc17f891)
 -     emit grading policy file -- [Mar 24th 16](../../commit/fffec90e8f799df3f34f98335c790188917f6490)
 -     add exercise conversion -- [Mar 22nd 16](../../commit/36d137297e30ac6dfa4a7c3e117843f379cb4b4c)
@@ -14,6 +15,9 @@
 
 # Bug fixes
 
+-     prepare test dir -- [Mar 29th 16](../../commit/e3a7d6228b246efc0c0cee03a940d7ce9de4e4f5)
+-     add makefile -- [Mar 29th 16](../../commit/928f06aee3b94871853166120ab74c40dea33363)
+-     generate makefile in ci env -- [Mar 29th 16](../../commit/6b6758b47e0408d23a000055dde0405524236b07)
 -     add missing dependency -- [Mar 29th 16](../../commit/9bebf09bb7e5cdc74828f8a58a4f64456b084ec2)
 -     add moment package -- [Mar 29th 16](../../commit/1f5cdfc6ce71ed6d0e7c6ebd355e79eccd2602b7)
 -     remove thematic breaks -- [Mar 21st 16](../../commit/a96c76eb3561f09cdcd4f3cb0fe73e2658ad3ccd)
