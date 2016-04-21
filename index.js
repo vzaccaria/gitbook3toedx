@@ -6,9 +6,10 @@ var _require = require("zaccaria-cli");
 
 var $d = _require.$d;
 var $o = _require.$o;
-var $f
+var $f = _require.$f;
+var $fs
 // $r.stdin() -> Promise  ;; to read from stdin
-= _require.$f;
+= _require.$fs;
 
 var path = require("path");
 var debug = require("debug")(__filename);
@@ -42,7 +43,7 @@ var getOptions = function (doc) {
 };
 
 var main = function () {
-    $f.readLocal("docs/usage.md").then(function (it) {
+    $fs.readFileAsync(__dirname + "/docs/usage.md", "utf8").then(function (it) {
         var _getOptions = getOptions(it);
 
         var help = _getOptions.help;

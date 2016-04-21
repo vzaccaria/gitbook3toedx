@@ -1,6 +1,6 @@
 /* eslint quotes: [0], strict: [0] */
 const {
-    $d, $o, $f
+    $d, $o, $f, $fs
     // $r.stdin() -> Promise  ;; to read from stdin
 } = require('zaccaria-cli')
 
@@ -31,7 +31,7 @@ const getOptions = doc => {
 }
 
 const main = () => {
-    $f.readLocal('docs/usage.md').then(it => {
+    $fs.readFileAsync(__dirname+'/docs/usage.md', 'utf8').then(it => {
         const {
             help, dir, config, json, pack, remove
         } = getOptions(it);
