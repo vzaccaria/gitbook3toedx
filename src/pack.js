@@ -16,11 +16,14 @@ function packit(options) {
         $s.mkdir('-p', coursedir);
         $s.mkdir('-p', `${coursedir}/about`);
         $s.mkdir('-p', `${coursedir}/policies`);
+        $s.mkdir('-p', `${coursedir}/static/assets`);
         $s.mkdir('-p', `${coursedir}/policies/${config.course.urlName}`);
         _.map(config.expandedFiles, (v, k) => {
             info(`writing ${coursedir}${k}`)
             v.to(`${coursedir}${k}`)
         })
+        $s.cp(__dirname + '/../static/assets/*', `${coursedir}/static/assets`)
+        $s.cp(__dirname + '/../static/index.html', `${coursedir}/static`)
         info('linting course.xml')
         return $s.execAsync(`xmllint ${coursedir}/course.xml --output ${coursedir}/course.xml --pretty 1`);
     }).then(() => {
