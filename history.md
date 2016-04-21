@@ -15,6 +15,7 @@
 
 # Bug fixes
 
+-     readme -- [Apr 21st 16](../../commit/b99c7fd098c5a224f08aee15c5a618d767c0955c)
 -     prepare test dir -- [Mar 29th 16](../../commit/e3a7d6228b246efc0c0cee03a940d7ce9de4e4f5)
 -     add makefile -- [Mar 29th 16](../../commit/928f06aee3b94871853166120ab74c40dea33363)
 -     generate makefile in ci env -- [Mar 29th 16](../../commit/6b6758b47e0408d23a000055dde0405524236b07)
