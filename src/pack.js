@@ -17,7 +17,7 @@ function packit(options) {
         $s.mkdir('-p', `${coursedir}/about`);
         $s.mkdir('-p', `${coursedir}/policies`);
         //$s.mkdir('-p', `${coursedir}/static/assets`);
-        //$s.mkdir('-p', `${coursedir}/policies/${config.course.urlName}`);
+        $s.mkdir('-p', `${coursedir}/policies/${config.course.urlName}`);
         _.map(config.expandedFiles, (v, k) => {
             info(`writing ${coursedir}${k}`)
             v.to(`${coursedir}${k}`)
