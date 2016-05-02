@@ -13,6 +13,7 @@ npm install gitbook3toedx
 ```
 Usage:
     gitbook3toedx json DIR [ -c CONFIG ]
+    gitbook3toedx info DIR [ -c CONFIG ]
     gitbook3toedx pack [ -r ]
     gitbook3toedx ( -h | --help )
 
@@ -24,6 +25,7 @@ Options:
 Commands:
     json                    generate the complete json representation of the course
     pack                    expects a json on stdin, produces a course.tar.gz to be uploaded
+    info                    prints out detailed information about the course
 
 Arguments:
     DIR                     directory containing the course
@@ -43,6 +45,7 @@ Released under the BSD License.
 
 # New features
 
+-     add command line option to print info -- [May 2nd 16](../../commit/1feaed7bf4dd410c0cbe560e8544823c41b0e8f3)
 -     add initial support for static files -- [Apr 21st 16](../../commit/bb81abb42036c28aec85a54c88eccebf77642a8f)
 -     add tests -- [Mar 29th 16](../../commit/82d5bd3144c34db6448d29a4329180f5cc17f891)
 -     emit grading policy file -- [Mar 24th 16](../../commit/fffec90e8f799df3f34f98335c790188917f6490)
