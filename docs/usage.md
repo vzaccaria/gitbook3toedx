@@ -1,5 +1,6 @@
 Usage:
     gitbook3toedx json DIR [ -c CONFIG ]
+    gitbook3toedx info DIR [ -c CONFIG ]
     gitbook3toedx pack [ -r ]
     gitbook3toedx ( -h | --help )
 
@@ -11,6 +12,7 @@ Options:
 Commands:
     json                    generate the complete json representation of the course
     pack                    expects a json on stdin, produces a course.tar.gz to be uploaded
+    info                    prints out detailed information about the course
 
 Arguments:
     DIR                     directory containing the course

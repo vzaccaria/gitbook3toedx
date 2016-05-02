@@ -30,6 +30,7 @@
     "chalk": "1.1.1",
     "debug": "2.2.0",
     "diy-build": "1.0.8",
+    "easy-table": "1.0.0",
     "flat": "2.0.0",
     "git-hist": "0.2.0",
     "liquid-node": "2.6.1",

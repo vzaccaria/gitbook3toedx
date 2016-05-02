@@ -29,18 +29,26 @@ var getOptions = function (doc) {
     var remove = $o("-r", "--remove", false, o);
     var json = o.json || false;
     var pack = o.pack || false;
+    var info = o.info || false;
     var dir = o.DIR || false;
     if (pack) {
         return { pack: pack, json: json, remove: remove };
     } else {
         var config = $o("-c", "--config", path.normalize(path.join(dir, "config.yaml")), o);
         var rt = {
-            help: help, dir: dir, config: config, json: json, pack: pack
+            help: help, dir: dir, config: config, json: json, pack: pack, info: info
         };
         debug(rt);
         return rt;
     }
 };
+
+function printCourseInfo(it) {
+    console.log("Course name:    " + it.course.displayName + " (not part of the url)");
+    console.log("Organization:   " + it.organization.name);
+    console.log("Course number:  " + it.course.number);
+    console.log("Course run:     " + it.course.year + "-" + it.course.season);
+}
 
 var main = function () {
     $fs.readFileAsync(__dirname + "/docs/usage.md", "utf8").then(function (it) {
@@ -52,10 +60,15 @@ var main = function () {
         var json = _getOptions.json;
         var pack = _getOptions.pack;
         var remove = _getOptions.remove;
+        var info = _getOptions.info;
 
-        if (json) {
-            parse(dir, config).then(function (json) {
-                console.log(JSON.stringify(json, 0, 4));
+        if (json || info) {
+            parse(dir, config).then(function (jj) {
+                if (json) {
+                    console.log(JSON.stringify(jj, 0, 4));
+                } else {
+                    printCourseInfo(jj);
+                }
             });
         } else {
             if (pack) {

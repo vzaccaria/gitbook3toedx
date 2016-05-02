@@ -17,27 +17,40 @@ const getOptions = doc => {
     const remove = $o('-r', '--remove', false, o)
     const json = o['json'] || false;
     const pack = o['pack'] || false;
+    const info = o['info'] || false;
     const dir = o.DIR || false;
     if (pack) {
         return { pack, json, remove }
     } else {
         const config = $o('-c', '--config', path.normalize(path.join(dir, 'config.yaml')), o);
         const rt = {
-            help, dir, config, json, pack
+            help, dir, config, json, pack, info
         }
         debug(rt)
         return rt
     }
 }
 
+function printCourseInfo(it) {
+    console.log("Course name:    "+it.course.displayName + " (not part of the url)")
+    console.log("Organization:   "+it.organization.name)
+    console.log("Course number:  "+it.course.number)
+    console.log("Course run:     "+it.course.year + "-" + it.course.season)
+}
+
 const main = () => {
     $fs.readFileAsync(__dirname+'/docs/usage.md', 'utf8').then(it => {
         const {
-            help, dir, config, json, pack, remove
+            help, dir, config, json, pack, remove, info
         } = getOptions(it);
-        if (json) {
-            parse(dir, config).then((json) => {
-                console.log(JSON.stringify(json, 0, 4));
+        if (json || info) {
+            parse(dir, config).then((jj) => {
+                if(json) {
+                    console.log(JSON.stringify(jj, 0, 4));
+                } else {
+                    printCourseInfo(jj) 
+                }
+
             })
         } else {
             if (pack) {

@@ -102,18 +102,26 @@ function produceVerticals(config) {
     return config
 }
 
+function printGradingInfo(data) {
+    let Table = require('easy-table');
+    info('Grading information:\n' + Table.print(data));
+}
+
 function addGradingPolicy(config) {
+    let data = []
     let gradedVerticals = []
     config.chapters = _.map(config.chapters, (c) => {
         c.sequentials = _.map(c.sequentials, (s) => {
             s.verticals = _.map(s.verticals, (v, k, o) => {
                 if(v.type !== 'normal' && _.isUndefined(s.gradeAs)) {
-                    warn(`Exercise not graded: vertical n. ${k} in ${c.displayName}/${s.displayName} - type ${v.type}`)
+                    //warn(`Exercise not graded: vertical n. ${k} in ${c.displayName}/${s.displayName} - type ${v.type}`)
+                    data.push({verticalName: `${c.displayName}/${s.displayName}`, type: v.type, graded: false, gradedAs: ''})
                 } else {
                     if(v.type !== 'normal') {
                         v.gradeAs = s.gradeAs
-                        info(`Exercise graded    : vertical n. ${k} in ${c.displayName}/${s.displayName} - type ${v.type} graded as ${v.gradeAs}`)
+                        //info(`Exercise graded    : vertical n. ${k} in ${c.displayName}/${s.displayName} - type ${v.type} graded as ${v.gradeAs}`)
                         gradedVerticals.push(v)
+                        data.push({verticalName: `${c.displayName}/${s.displayName}`, type: v.type, graded: true, gradedAs: v.gradeAs})
                     }
                 }
                 return v
@@ -133,6 +141,7 @@ function addGradingPolicy(config) {
         })
         config.expandedFiles[`/policies/${config.course.urlName}/grading_policy.json`] = JSON.stringify(config.grading, 0, 4)
     }
+    printGradingInfo(data)
     return config
 }
 
