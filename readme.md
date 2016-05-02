@@ -45,6 +45,7 @@ Released under the BSD License.
 
 # New features
 
+-     create policy file for course -- [May 2nd 16](../../commit/7e4d928b18b132d57bb92d87be510bafd1c5aae3)
 -     add command line option to print info -- [May 2nd 16](../../commit/1feaed7bf4dd410c0cbe560e8544823c41b0e8f3)
 -     add initial support for static files -- [Apr 21st 16](../../commit/bb81abb42036c28aec85a54c88eccebf77642a8f)
 -     add tests -- [Mar 29th 16](../../commit/82d5bd3144c34db6448d29a4329180f5cc17f891)
