@@ -11,7 +11,7 @@ course:
 
 
     # in '_assets' directory
-    # image:  'course-image.jpg'
+    course_image:  'course-image.jpg'
 
 
     start: '2016 10 01'
