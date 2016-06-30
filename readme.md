@@ -62,6 +62,7 @@ Released under the BSD License.
 
 # Bug fixes
 
+-     introduce version in displayNames -- [Jun 30th 16](../../commit/752a011d1861a69639a85b67301c80d2e9a04bdd)
 -     remove jsinput failed tests -- [Apr 21st 16](../../commit/07c749d115a6b6fd7ed8f34e7c34a452327c9919)
 -     readme -- [Apr 21st 16](../../commit/b99c7fd098c5a224f08aee15c5a618d767c0955c)
 -     prepare test dir -- [Mar 29th 16](../../commit/e3a7d6228b246efc0c0cee03a940d7ce9de4e4f5)
