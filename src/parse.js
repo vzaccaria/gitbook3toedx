@@ -22,8 +22,18 @@ let $b = require('bluebird');
 function fixStartDate(d, x) {
     if (!_.isUndefined(x.scheduledWeek)) {
         x.start = $t(d, "YYYY MM DD").add(x.scheduledWeek, 'week').format("YYYY MM DD");
+    } else {
+        x.start = d;
     }
     return x;
+}
+
+function uniquify(name, config) {
+    if(!_.isUndefined(config.course.version)) {
+        return `${name} (v${config.course.version})`;
+    } else {
+        return name;
+    }
 }
 
 function fixSequentialNameAndType(config, s) {
@@ -34,7 +44,7 @@ function fixSequentialNameAndType(config, s) {
         s.format = s.gradeAs;
         s.graded = !_.isUndefined(s.format);
     }
-    s.displayName = s.name;
+    s.displayName = uniquify(s.name, config);
     s.urlName = slugify(s.name) + `-${uid(8)}`;
 
     return s;
@@ -49,7 +59,7 @@ function fixChaptersAndSequentialsNames(config) {
             file: c.file
         }].concat(c.sequentials);
         c.sequentials = _.map(c.sequentials, _.curry(fixSequentialNameAndType)(config));
-        c.displayName = c.name;
+        c.displayName = uniquify(c.name, config);
         c.urlName = slugify(c.name) + `-${uid(8)}`;
         c.file = undefined;
         c.scheduledWeek = undefined;

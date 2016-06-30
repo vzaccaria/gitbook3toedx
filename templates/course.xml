@@ -27,6 +27,7 @@
         <html display_name="{{sequential.displayName}} - Step {{forloop.index}}">
 
           <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/prism.min.js'/>
+          <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/prism/1.4.1/components/prism-matlab.min.js'/>
           <script type='text/javascript'>
             function onLoad () { Prism.highlightAll(); window.removeEventListener('load', onLoad); };
             console.log("Adding event listener");
