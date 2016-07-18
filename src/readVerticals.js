@@ -106,9 +106,6 @@ function _debug(o, fn) {
 function getBreaks(o) {
     o.breakpoints = [0];
     visit(o.ast, 'thematicBreak', (x) => {
-        _debug(o, () => {
-            info(JSON.stringify(x))
-        })
         o.breakpoints.push(x.position.start.line - 1)
     });
     return o;
@@ -183,7 +180,6 @@ function splitOnBreaks(o) {
         return v;
     });
     o.verticals = verticals;
-    displayFileInfo(o)
     o.breakpoints = undefined;
     o.ast = undefined;
     o.content = undefined;
