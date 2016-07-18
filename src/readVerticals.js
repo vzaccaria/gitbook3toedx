@@ -5,11 +5,15 @@ let b64 = require('base64-url');
 
 const visit = require('unist-util-visit');
 let {
-    warn, info, error
+    warn,
+    info,
+    error
 } = require('./messages');
 
 let {
-    $fs, $b, _
+    $fs,
+    $b,
+    _
 } = require('zaccaria-cli');
 
 let $r = require('remark')();
@@ -70,11 +74,11 @@ function getExercise(p, init, lastParagraphLine) {
         p.grader_payload = {
             payload: b64.encode(JSON.stringify(p.code))
         };
-        p.grader_payload  = JSON.stringify(p.grader_payload);
-        p.code.base       = _.escape(p.code.base);
-        p.code.solution   = _.escape(p.code.solution);
+        p.grader_payload = JSON.stringify(p.grader_payload);
+        p.code.base = _.escape(p.code.base);
+        p.code.solution = _.escape(p.code.solution);
         p.code.validation = _.escape(p.code.validation);
-        p.code.context    = _.escape(p.code.context);
+        p.code.context = _.escape(p.code.context);
         return p;
     }
 }
@@ -86,14 +90,27 @@ function readFile(dir, o) {
 }
 
 function expandContent(o) {
-    o.ast = $r.parse(o.content);
     o.markdown = $r.process(o.content);
-    return $b.props(o);
+    return $b.props(o).then((_o) => {
+        _o.ast = $r.parse(_o.markdown);
+        return $b.props(_o);
+    });
+}
+
+function _debug(o, fn) {
+    if(o.file === 'arrays/length.md') {
+        fn(o) 
+    }
 }
 
 function getBreaks(o) {
     o.breakpoints = [0];
-    visit(o.ast, 'thematicBreak', (x) => o.breakpoints.push(x.position.start.line - 1));
+    visit(o.ast, 'thematicBreak', (x) => {
+        _debug(o, () => {
+            info(JSON.stringify(x))
+        })
+        o.breakpoints.push(x.position.start.line - 1)
+    });
     return o;
 }
 
@@ -117,8 +134,11 @@ function analyzeChunk(o) {
     let p = {};
     p.content = o;
     p.ast = $r.parse(p.content);
+
     let {
-        isExercise, init, lastParagraphLine
+        isExercise,
+        init,
+        lastParagraphLine
     } = _isExercise(p);
     if (isExercise) {
         p = getExercise(p, init, lastParagraphLine);
@@ -131,16 +151,29 @@ function analyzeChunk(o) {
     return p;
 }
 
+function displayFileInfo(o) {
+    let vrt = [];
+    const s = o.breakpoints.length;
+    for (let i = 0; i < (s - 1); i++) {
+        vrt.push(o.breakpoints[i+1] - o.breakpoints[i]);
+    }
+    warn(`File ${o.file} - pre: ${vrt}, post: ${_.map(o.verticals, (x) => x.content.split('\n').length)}`)
+}
+
+
 function splitOnBreaks(o) {
     const c = o.markdown.split('\n');
     o.breakpoints.push(c.length - 1);
-    let verticals = [];
 
     // so o.breakpoints has at least 2 values
+    let verticals = [];
+
+
     const s = o.breakpoints.length;
     for (let i = 0; i < (s - 1); i++) {
         verticals.push(c.slice(o.breakpoints[i], o.breakpoints[i + 1]));
     }
+
     verticals = _.map(verticals, (c) => c.join('\n'));
     verticals = _.map(verticals, (c) => c.replace(/\* \* \*/g, ''));
     verticals = _.map(verticals, analyzeChunk);
@@ -150,6 +183,7 @@ function splitOnBreaks(o) {
         return v;
     });
     o.verticals = verticals;
+    displayFileInfo(o)
     o.breakpoints = undefined;
     o.ast = undefined;
     o.content = undefined;
