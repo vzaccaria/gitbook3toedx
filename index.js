@@ -1,42 +1,32 @@
 #!/usr/bin/env node
 /* eslint quotes: [0], strict: [0] */
-"use strict";
+const {
+    $d, $o, $f, $fs
+    // $r.stdin() -> Promise  ;; to read from stdin
+} = require('zaccaria-cli');
 
-var _require = require("zaccaria-cli");
+const path = require('path');
+const debug = require('debug')(__filename);
+const parse = require('./lib/parse');
+const packit = require('./lib/pack');
+let { warn, info, error } = require('./lib/messages');
 
-var $d = _require.$d;
-var $o = _require.$o;
-var $f = _require.$f;
-var $fs
-// $r.stdin() -> Promise  ;; to read from stdin
-= _require.$fs;
-
-var path = require("path");
-var debug = require("debug")(__filename);
-var parse = require("./lib/parse");
-var packit = require("./lib/pack");
-
-var _require2 = require("./lib/messages");
-
-var warn = _require2.warn;
-var info = _require2.info;
-var error = _require2.error;
-
-var getOptions = function (doc) {
+const getOptions = doc => {
     "use strict";
-    var o = $d(doc);
-    var help = $o("-h", "--help", false, o);
-    var remove = $o("-r", "--remove", false, o);
-    var json = o.json || false;
-    var pack = o.pack || false;
-    var info = o.info || false;
-    var dir = o.DIR || false;
+
+    const o = $d(doc);
+    const help = $o('-h', '--help', false, o);
+    const remove = $o('-r', '--remove', false, o);
+    const json = o['json'] || false;
+    const pack = o['pack'] || false;
+    const info = o['info'] || false;
+    const dir = o.DIR || false;
     if (pack) {
-        return { pack: pack, json: json, remove: remove };
+        return { pack, json, remove };
     } else {
-        var config = $o("-c", "--config", path.normalize(path.join(dir, "config.yaml")), o);
-        var rt = {
-            help: help, dir: dir, config: config, json: json, pack: pack, info: info
+        const config = $o('-c', '--config', path.normalize(path.join(dir, 'config.yaml')), o);
+        const rt = {
+            help, dir, config, json, pack, info
         };
         debug(rt);
         return rt;
@@ -50,20 +40,13 @@ function printCourseInfo(it) {
     console.log("Course run:     " + it.course.year + "-" + it.course.season);
 }
 
-var main = function () {
-    $fs.readFileAsync(__dirname + "/docs/usage.md", "utf8").then(function (it) {
-        var _getOptions = getOptions(it);
-
-        var help = _getOptions.help;
-        var dir = _getOptions.dir;
-        var config = _getOptions.config;
-        var json = _getOptions.json;
-        var pack = _getOptions.pack;
-        var remove = _getOptions.remove;
-        var info = _getOptions.info;
-
+const main = () => {
+    $fs.readFileAsync(__dirname + '/docs/usage.md', 'utf8').then(it => {
+        const {
+            help, dir, config, json, pack, remove, info
+        } = getOptions(it);
         if (json || info) {
-            parse(dir, config).then(function (jj) {
+            parse(dir, config).then(jj => {
                 if (json) {
                     console.log(JSON.stringify(jj, 0, 4));
                 } else {
@@ -72,8 +55,8 @@ var main = function () {
             });
         } else {
             if (pack) {
-                warn("packing up");
-                packit({ remove: remove })["catch"](function (e) {
+                warn('packing up');
+                packit({ remove }).catch(e => {
                     error(e);
                 });
             } else {
