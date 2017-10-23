@@ -54,6 +54,13 @@ info:
       - question: 'q1'
         answer: 'aq2'
 
+    gradesource:
+      message: |
+        Questo qui sotto non è un vero e proprio ambiente di programmazione. Si
+        suggerisce di scrivere e provare il programma in Matlab e di copiarlo e
+        incollarlo quando è certi che funzioni.
+
+
 short-description: |
     # Informatica B
 

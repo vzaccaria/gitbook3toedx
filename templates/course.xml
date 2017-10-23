@@ -48,6 +48,10 @@
                 {{vertical.content}}
             </text>
 
+             <text>
+                {{info.gradesource.message}}
+            </text>
+
             <coderesponse queuename="{{xqueue.name}}">
                 <textbox rows="10" cols="80" mode="{{vertical.lang}}" tabsize="4" />
                 <codeparam>
